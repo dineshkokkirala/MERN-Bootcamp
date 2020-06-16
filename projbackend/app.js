@@ -7,8 +7,11 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 
+const authRoutes = require("./routes/auth");
+
 const app = express();
 
+//DB Connection
 const mongoURI = config.get("mongoURI");
 mongoose
   .connect(process.env.DATABASE, {
@@ -23,12 +26,17 @@ mongoose
     console.log("DB Connection failed");
   });
 
+//Middlewares
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(cors());
 
+//My routes
+app.use("/api", authRoutes);
+
 const port = 8000 || process.env.PORT;
 
+//server start
 app.listen(port, () => {
   console.log(`App is running at ${port}`);
 });
