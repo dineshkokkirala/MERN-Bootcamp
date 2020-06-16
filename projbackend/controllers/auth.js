@@ -4,8 +4,9 @@ const jwt = require("jsonwebtoken");
 const expressJwt = require("express-jwt");
 
 exports.signout = (req, res) => {
+  res.clearCookie("token");
   res.json({
-    msg: "User signout",
+    msg: "User signout successfully",
   });
 };
 
@@ -57,4 +58,26 @@ exports.signin = (req, res) => {
     const { _id, name, email, role } = user;
     return res.json({ token, user: { _id, name, email, role } });
   });
+};
+
+//protected routes
+exports.isSignedIn = expressJwt({
+  secret: process.env.SECRET,
+  userProperty: "auth",
+});
+
+//custom middlewares
+exports.isAuthenticated = (req, res, next) => {
+  let checker = req.profile && req.auth && req.profile._id === req.auth._id;
+  if (!checker) {
+    return res.status(403).json({ error: "ACCESS DENIED" });
+  }
+  next();
+};
+
+exports.isAdmin = (req, res, next) => {
+  if (req.profile.role === 0) {
+    return res.status(403).json({ error: "You are not ADMIN, Access Denied" });
+  }
+  next();
 };
