@@ -3,6 +3,7 @@ const formidable = require("formidable");
 const _ = require("lodash");
 const fs = require("fs");
 const { sortBy } = require("lodash");
+const { update } = require("../models/product");
 
 exports.getProductById = (req, res, next, id) => {
   Product.findById(id)
@@ -123,4 +124,31 @@ exports.getAllProducts = (req, res) => {
       }
       res.json(products);
     });
+};
+
+exports.updateStock = (req, res, next) => {
+  let myOperations = req.body.order.products.map((product) => {
+    return {
+      updateOne: {
+        filter: { _id: product._id },
+        update: { $inc: { stock: -product.count, sold: +product.count } },
+      },
+    };
+  });
+
+  Product.bulkWrite(myOperations, {}, (err, products) => {
+    if (err) {
+      return res.status(400).json({ error: "Bulk operation failed" });
+    }
+    next();
+  });
+};
+
+exports.getAllUniqueCategories = (req, res) => {
+  Product.distinct("category", {}, (err, category) => {
+    if (err) {
+      return res.status(400).json({ error: "No category found" });
+    }
+    res.json(category);
+  });
 };
