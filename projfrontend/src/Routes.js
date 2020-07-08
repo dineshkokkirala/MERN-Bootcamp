@@ -12,6 +12,7 @@ import AddCategory from "./admin/AddCategory";
 import ManageCategories from "./admin/ManageCategories";
 import AddProduct from "./admin/AddProduct";
 import ManageProducts from "./admin/ManageProducts";
+import UpdateProduct from "./admin/UpdateProduct";
 
 function Routes() {
   return (
@@ -23,6 +24,11 @@ function Routes() {
         <PrivateRoutes path="/user/dashboard" exact component={UserDashBoard} />
         <AdminRoutes path="/admin/dashboard" exact component={AdminDashBoard} />
         <AdminRoutes path="/admin/products" exact component={ManageProducts} />
+        <AdminRoutes
+          path="/admin/product/update/:productId"
+          exact
+          component={UpdateProduct}
+        />
         <AdminRoutes
           path="/admin/create/product"
           exact
