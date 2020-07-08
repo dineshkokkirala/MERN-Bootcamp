@@ -44,12 +44,13 @@ const Menu = ({ history }) => {
             <Link
               style={currentTab(history, "/admin/dashbaord")}
               className="nav-link"
-              to="/admin/dashbaord"
+              to="/admin/dashboard"
             >
               A. Dashboard
             </Link>
           </li>
         )}
+
         {!isAuthenticated() && (
           <Fragment>
             <li className="nav-item">
