@@ -11,6 +11,7 @@ import AdminRoutes from "./auth/helper/AdminRoutes";
 import AddCategory from "./admin/AddCategory";
 import ManageCategories from "./admin/ManageCategories";
 import AddProduct from "./admin/AddProduct";
+import ManageProducts from "./admin/ManageProducts";
 
 function Routes() {
   return (
@@ -21,6 +22,7 @@ function Routes() {
         <Route path="/signin" exact component={Signin} />
         <PrivateRoutes path="/user/dashboard" exact component={UserDashBoard} />
         <AdminRoutes path="/admin/dashboard" exact component={AdminDashBoard} />
+        <AdminRoutes path="/admin/products" exact component={ManageProducts} />
         <AdminRoutes
           path="/admin/create/product"
           exact
