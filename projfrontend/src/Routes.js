@@ -34,11 +34,11 @@ function Routes() {
           exact
           component={AddProduct}
         />
-        <AdminRoutes
+        {/* <AdminRoutes
           path="/admin/categories"
           exact
           component={ManageCategories}
-        />
+        /> */}
         <AdminRoutes
           path="/admin/create/category"
           exact

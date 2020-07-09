@@ -2,14 +2,16 @@ import React from "react";
 import "../styles.css";
 import { API } from "../backend";
 import Base from "./Base";
+import Card from "./Card";
 
 function Home() {
-  console.log("API IS", API);
+  //console.log("API IS", API);
+
   return (
     <Base title="Home Page" description="Welcome to the T-Shirt store">
-      <div className="row">
+      <div className="row text-center">
         <div className="col-4">
-          <button className="btn btn-success">Test</button>
+          <Card />
         </div>
         <div className="col-4">
           <button className="btn btn-success">Test</button>
