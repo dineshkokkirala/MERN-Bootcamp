@@ -9,10 +9,11 @@ import AdminDashBoard from "./user/AdminDashBoard";
 import PrivateRoutes from "./auth/helper/PrivateRoutes";
 import AdminRoutes from "./auth/helper/AdminRoutes";
 import AddCategory from "./admin/AddCategory";
-import ManageCategories from "./admin/ManageCategories";
+//import ManageCategories from "./admin/ManageCategories";
 import AddProduct from "./admin/AddProduct";
 import ManageProducts from "./admin/ManageProducts";
 import UpdateProduct from "./admin/UpdateProduct";
+import Cart from "./core/Cart";
 
 function Routes() {
   return (
@@ -21,6 +22,7 @@ function Routes() {
         <Route path="/" exact component={Home} />
         <Route path="/signup" exact component={Signup} />
         <Route path="/signin" exact component={Signin} />
+        <Route path="/cart" exact component={Cart} />
         <PrivateRoutes path="/user/dashboard" exact component={UserDashBoard} />
         <AdminRoutes path="/admin/dashboard" exact component={AdminDashBoard} />
         <AdminRoutes path="/admin/products" exact component={ManageProducts} />
