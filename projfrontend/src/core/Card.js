@@ -28,7 +28,7 @@ const Card = ({
       return <Redirect to="/cart" />;
     }
   };
-
+//show cart
   const showAddtoCart = (addtoCart) => {
     return (
       addtoCart && (
