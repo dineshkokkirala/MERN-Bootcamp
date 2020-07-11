@@ -15,7 +15,7 @@ const orderRoutes = require("./routes/order");
 
 const app = express();
 
-//DB Connection
+//MongoDB Connection
 const mongoURI = config.get("mongoURI");
 mongoose
   .connect(process.env.DATABASE, {
