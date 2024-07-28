@@ -5,14 +5,12 @@ import Base from "./Base";
 import Card from "./Card";
 import { getProducts } from "./helper/coreapicalls";
 
-function Home() {
-  //console.log("API IS", API);
-
+export default function Home() {
   const [products, setProducts] = useState([]);
   const [error, setError] = useState(false);
 
-  const loadAllProducts = () => {
-    getProducts().then((data) => {
+  const loadAllProduct = () => {
+    getProducts().then(data => {
       if (data.error) {
         setError(data.error);
       } else {
@@ -22,13 +20,13 @@ function Home() {
   };
 
   useEffect(() => {
-    loadAllProducts();
+    loadAllProduct();
   }, []);
 
   return (
-    <Base title="Home Page" description="Welcome to the T-Shirt store">
+    <Base title="Home Page" description="Welcome to the Tshirt Store">
       <div className="row text-center">
-        <h1 className="text-white">All of T-Shirts</h1>
+        <h1 className="text-white">All of tshirts</h1>
         <div className="row">
           {products.map((product, index) => {
             return (
@@ -42,5 +40,3 @@ function Home() {
     </Base>
   );
 }
-
-export default Home;

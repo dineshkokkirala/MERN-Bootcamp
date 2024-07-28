@@ -7,29 +7,28 @@ const Card = ({
   product,
   addtoCart = true,
   removeFromCart = false,
-  setReload = (f) => f,
-  reload = undefined,
+  setReload = f => f,
+  //   function(f){return f}
+  reload = undefined
 }) => {
   const [redirect, setRedirect] = useState(false);
   const [count, setCount] = useState(product.count);
 
-  const cartTitle = product ? product.name : "A Photo from Pexels";
-  const cartDescription = product ? product.description : "Good tShirt";
+  const cartTitle = product ? product.name : "A photo from pexels";
+  const cartDescrption = product ? product.description : "Default description";
   const cartPrice = product ? product.price : "DEFAULT";
 
   const addToCart = () => {
-    addItemToCart(product, () => {
-      setRedirect(true);
-    });
+    addItemToCart(product, () => setRedirect(true));
   };
 
-  const getRedirect = (redirect) => {
+  const getARedirect = redirect => {
     if (redirect) {
       return <Redirect to="/cart" />;
     }
   };
 
-  const showAddtoCart = (addtoCart) => {
+  const showAddToCart = addtoCart => {
     return (
       addtoCart && (
         <button
@@ -42,7 +41,7 @@ const Card = ({
     );
   };
 
-  const showRemoveFromCart = (removeFromCart) => {
+  const showRemoveFromCart = removeFromCart => {
     return (
       removeFromCart && (
         <button
@@ -57,19 +56,18 @@ const Card = ({
       )
     );
   };
-
   return (
     <div className="card text-white bg-dark border border-info ">
       <div className="card-header lead">{cartTitle}</div>
       <div className="card-body">
-        {getRedirect(redirect)}
+        {getARedirect(redirect)}
         <ImageHelper product={product} />
         <p className="lead bg-success font-weight-normal text-wrap">
-          {cartDescription}
+          {cartDescrption}
         </p>
         <p className="btn btn-success rounded  btn-sm px-4">$ {cartPrice}</p>
         <div className="row">
-          <div className="col-12">{showAddtoCart(addtoCart)}</div>
+          <div className="col-12">{showAddToCart(addtoCart)}</div>
           <div className="col-12">{showRemoveFromCart(removeFromCart)}</div>
         </div>
       </div>

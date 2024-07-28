@@ -4,12 +4,12 @@ import { Link } from "react-router-dom";
 import {
   getCategories,
   getProduct,
-  updateProduct,
+  updateProduct
 } from "./helper/adminapicall";
-import { isAuthenticated } from "../auth/helper/index";
+import { isAutheticated } from "../auth/helper/index";
 
 const UpdateProduct = ({ match }) => {
-  const { user, token } = isAuthenticated();
+  const { user, token } = isAutheticated();
 
   const [values, setValues] = useState({
     name: "",
@@ -23,7 +23,7 @@ const UpdateProduct = ({ match }) => {
     error: "",
     createdProduct: "",
     getaRedirect: false,
-    formData: "",
+    formData: ""
   });
 
   const {
@@ -37,11 +37,12 @@ const UpdateProduct = ({ match }) => {
     error,
     createdProduct,
     getaRedirect,
-    formData,
+    formData
   } = values;
 
-  const preload = (productId) => {
-    getProduct(productId).then((data) => {
+  const preload = productId => {
+    getProduct(productId).then(data => {
+      //console.log(data);
       if (data.error) {
         setValues({ ...values, error: data.error });
       } else {
@@ -53,18 +54,21 @@ const UpdateProduct = ({ match }) => {
           price: data.price,
           category: data.category._id,
           stock: data.stock,
-          formData: new FormData(),
+          formData: new FormData()
         });
       }
     });
   };
 
   const preloadCategories = () => {
-    getCategories().then((data) => {
+    getCategories().then(data => {
       if (data.error) {
         setValues({ ...values, error: data.error });
       } else {
-        setValues({ categories: data, formData: new FormData() });
+        setValues({
+          categories: data,
+          formData: new FormData()
+        });
       }
     });
   };
@@ -73,11 +77,13 @@ const UpdateProduct = ({ match }) => {
     preload(match.params.productId);
   }, []);
 
-  const onSubmit = (event) => {
+  //TODO: work on it
+  const onSubmit = event => {
     event.preventDefault();
     setValues({ ...values, error: "", loading: true });
+
     updateProduct(match.params.productId, user._id, token, formData).then(
-      (data) => {
+      data => {
         if (data.error) {
           setValues({ ...values, error: data.error });
         } else {
@@ -89,14 +95,14 @@ const UpdateProduct = ({ match }) => {
             photo: "",
             stock: "",
             loading: false,
-            createdProduct: data.name,
+            createdProduct: data.name
           });
         }
       }
     );
   };
 
-  const handleChange = (name) => (event) => {
+  const handleChange = name => event => {
     const value = name === "photo" ? event.target.files[0] : event.target.value;
     formData.set(name, value);
     setValues({ ...values, [name]: value });
@@ -110,16 +116,6 @@ const UpdateProduct = ({ match }) => {
       <h4>{createdProduct} updated successfully</h4>
     </div>
   );
-  const errorMessage = () => {
-    return (
-      <div
-        className="alert alert-danger mt-3"
-        style={{ display: createdProduct ? "none" : "" }}
-      >
-        <h4>Failed to update {createdProduct}. Please try again</h4>
-      </div>
-    );
-  };
 
   const createProductForm = () => (
     <form>
@@ -182,7 +178,7 @@ const UpdateProduct = ({ match }) => {
           onChange={handleChange("stock")}
           type="number"
           className="form-control"
-          placeholder="Quantity"
+          placeholder="Stock"
           value={stock}
         />
       </div>
@@ -199,16 +195,17 @@ const UpdateProduct = ({ match }) => {
 
   return (
     <Base
-      title="Add Product here!"
+      title="Add a product here!"
       description="Welcome to product creation section"
       className="container bg-info p-4"
     >
       <Link to="/admin/dashboard" className="btn btn-md btn-dark mb-3">
-        Admin home
+        Admin Home
       </Link>
       <div className="row bg-dark text-white rounded">
         <div className="col-md-8 offset-md-2">
-          {successMessage()} {errorMessage} {createProductForm()}
+          {successMessage()}
+          {createProductForm()}
         </div>
       </div>
     </Base>

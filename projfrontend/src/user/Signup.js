@@ -9,20 +9,20 @@ const Signup = () => {
     email: "",
     password: "",
     error: "",
-    success: false,
+    success: false
   });
 
-  const { name, email, password, success, error } = values;
+  const { name, email, password, error, success } = values;
 
-  const handleChange = (name) => (event) => {
+  const handleChange = name => event => {
     setValues({ ...values, error: false, [name]: event.target.value });
   };
 
-  const onSubmit = (event) => {
+  const onSubmit = event => {
     event.preventDefault();
     setValues({ ...values, error: false });
     signup({ name, email, password })
-      .then((data) => {
+      .then(data => {
         if (data.error) {
           setValues({ ...values, error: data.error, success: false });
         } else {
@@ -32,7 +32,7 @@ const Signup = () => {
             email: "",
             password: "",
             error: "",
-            success: true,
+            success: true
           });
         }
       })
@@ -48,8 +48,8 @@ const Signup = () => {
               <label className="text-light">Name</label>
               <input
                 className="form-control"
-                type="text"
                 onChange={handleChange("name")}
+                type="text"
                 value={name}
               />
             </div>
@@ -57,22 +57,23 @@ const Signup = () => {
               <label className="text-light">Email</label>
               <input
                 className="form-control"
-                type="email"
                 onChange={handleChange("email")}
+                type="email"
                 value={email}
               />
             </div>
+
             <div className="form-group">
               <label className="text-light">Password</label>
               <input
+                onChange={handleChange("password")}
                 className="form-control"
                 type="password"
-                onChange={handleChange("password")}
                 value={password}
               />
             </div>
-            <button className="btn btn-success btn-block" onClick={onSubmit}>
-              Sign Up
+            <button onClick={onSubmit} className="btn btn-success btn-block">
+              Submit
             </button>
           </form>
         </div>
@@ -88,8 +89,8 @@ const Signup = () => {
             className="alert alert-success"
             style={{ display: success ? "" : "none" }}
           >
-            New account was created successfully. Please{" "}
-            <Link to="/signin">Login here</Link>
+            New account was created successfully. Please
+            <Link to="/signin">Login Here</Link>
           </div>
         </div>
       </div>
@@ -112,10 +113,11 @@ const Signup = () => {
   };
 
   return (
-    <Base title="SignUp Page" description="A page for user to Sign Up!">
+    <Base title="Sign up page" description="A page for user to sign up!">
       {successMessage()}
       {errorMessage()}
       {signUpForm()}
+      <p className="text-white text-center">{JSON.stringify(values)}</p>
     </Base>
   );
 };

@@ -1,17 +1,20 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
-import { isAuthenticated } from "./index";
+import { isAutheticated } from "./index";
 
-const AdminRoutes = ({ component: Component, ...rest }) => {
+const AdminRoute = ({ component: Component, ...rest }) => {
   return (
     <Route
       {...rest}
-      render={(props) =>
-        isAuthenticated() && isAuthenticated().user.role === 1 ? (
+      render={props =>
+        isAutheticated() && isAutheticated().user.role === 1 ? (
           <Component {...props} />
         ) : (
           <Redirect
-            to={{ pathname: "/signin", state: { from: props.location } }}
+            to={{
+              pathname: "/signin",
+              state: { from: props.location }
+            }}
           />
         )
       }
@@ -19,4 +22,4 @@ const AdminRoutes = ({ component: Component, ...rest }) => {
   );
 };
 
-export default AdminRoutes;
+export default AdminRoute;

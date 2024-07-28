@@ -1,21 +1,20 @@
 import React, { useState } from "react";
 import Base from "../core/Base";
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 
-import { signin, authenticate, isAuthenticated } from "../auth/helper/index";
+import { signin, authenticate, isAutheticated } from "../auth/helper";
 
 const Signin = () => {
   const [values, setValues] = useState({
-    email: "dinesh@gmail.com",
-    password: "123456",
+    email: "",
+    password: "",
     error: "",
     loading: false,
     didRedirect: false,
   });
 
   const { email, password, error, loading, didRedirect } = values;
-
-  const { user } = isAuthenticated();
+  const { user } = isAutheticated();
 
   const handleChange = (name) => (event) => {
     setValues({ ...values, error: false, [name]: event.target.value });
@@ -30,11 +29,14 @@ const Signin = () => {
           setValues({ ...values, error: data.error, loading: false });
         } else {
           authenticate(data, () => {
-            setValues({ ...values, didRedirect: true });
+            setValues({
+              ...values,
+              didRedirect: true,
+            });
           });
         }
       })
-      .catch(console.log("Signin request failed"));
+      .catch(console.log("signin request failed"));
   };
 
   const performRedirect = () => {
@@ -45,7 +47,7 @@ const Signin = () => {
         return <Redirect to="/user/dashboard" />;
       }
     }
-    if (isAuthenticated()) {
+    if (isAutheticated()) {
       return <Redirect to="/" />;
     }
   };
@@ -83,23 +85,24 @@ const Signin = () => {
             <div className="form-group">
               <label className="text-light">Email</label>
               <input
+                onChange={handleChange("email")}
+                value={email}
                 className="form-control"
                 type="email"
-                value={email}
-                onChange={handleChange("email")}
               />
             </div>
+
             <div className="form-group">
               <label className="text-light">Password</label>
               <input
+                onChange={handleChange("password")}
+                value={password}
                 className="form-control"
                 type="password"
-                value={password}
-                onChange={handleChange("password")}
               />
             </div>
-            <button className="btn btn-success btn-block" onClick={onSubmit}>
-              Login
+            <button onClick={onSubmit} className="btn btn-success btn-block">
+              Submit
             </button>
           </form>
         </div>
@@ -108,11 +111,13 @@ const Signin = () => {
   };
 
   return (
-    <Base title="Sign In Page" description="A page for user to Sign In!">
+    <Base title="Sign In page" description="A page for user to sign in!">
       {loadingMessage()}
       {errorMessage()}
       {signInForm()}
       {performRedirect()}
+
+      <p className="text-white text-center">{JSON.stringify(values)}</p>
     </Base>
   );
 };

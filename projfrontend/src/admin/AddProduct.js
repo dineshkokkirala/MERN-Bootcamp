@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Base from "../core/Base";
 import { Link } from "react-router-dom";
-import { getCategories, createProduct } from "./helper/adminapicall";
-import { isAuthenticated } from "../auth/helper/index";
+import { getCategories, createaProduct } from "./helper/adminapicall";
+import { isAutheticated } from "../auth/helper/index";
 
 const AddProduct = () => {
-  const { user, token } = isAuthenticated();
+  const { user, token } = isAutheticated();
 
   const [values, setValues] = useState({
     name: "",
@@ -19,7 +19,7 @@ const AddProduct = () => {
     error: "",
     createdProduct: "",
     getaRedirect: false,
-    formData: "",
+    formData: ""
   });
 
   const {
@@ -33,11 +33,12 @@ const AddProduct = () => {
     error,
     createdProduct,
     getaRedirect,
-    formData,
+    formData
   } = values;
 
   const preload = () => {
-    getCategories().then((data) => {
+    getCategories().then(data => {
+      //console.log(data);
       if (data.error) {
         setValues({ ...values, error: data.error });
       } else {
@@ -50,10 +51,10 @@ const AddProduct = () => {
     preload();
   }, []);
 
-  const onSubmit = (event) => {
+  const onSubmit = event => {
     event.preventDefault();
     setValues({ ...values, error: "", loading: true });
-    createProduct(user._id, token, formData).then((data) => {
+    createaProduct(user._id, token, formData).then(data => {
       if (data.error) {
         setValues({ ...values, error: data.error });
       } else {
@@ -65,13 +66,13 @@ const AddProduct = () => {
           photo: "",
           stock: "",
           loading: false,
-          createdProduct: data.name,
+          createdProduct: data.name
         });
       }
     });
   };
 
-  const handleChange = (name) => (event) => {
+  const handleChange = name => event => {
     const value = name === "photo" ? event.target.files[0] : event.target.value;
     formData.set(name, value);
     setValues({ ...values, [name]: value });
@@ -85,16 +86,6 @@ const AddProduct = () => {
       <h4>{createdProduct} created successfully</h4>
     </div>
   );
-  const errorMessage = () => {
-    return (
-      <div
-        className="alert alert-danger mt-3"
-        style={{ display: createdProduct ? "none" : "" }}
-      >
-        <h4>Failed to create {createdProduct}. Please try again</h4>
-      </div>
-    );
-  };
 
   const createProductForm = () => (
     <form>
@@ -157,7 +148,7 @@ const AddProduct = () => {
           onChange={handleChange("stock")}
           type="number"
           className="form-control"
-          placeholder="Quantity"
+          placeholder="Stock"
           value={stock}
         />
       </div>
@@ -174,16 +165,17 @@ const AddProduct = () => {
 
   return (
     <Base
-      title="Add Product here!"
+      title="Add a product here!"
       description="Welcome to product creation section"
       className="container bg-info p-4"
     >
       <Link to="/admin/dashboard" className="btn btn-md btn-dark mb-3">
-        Admin home
+        Admin Home
       </Link>
       <div className="row bg-dark text-white rounded">
         <div className="col-md-8 offset-md-2">
-          {successMessage()} {errorMessage} {createProductForm()}
+          {successMessage()}
+          {createProductForm()}
         </div>
       </div>
     </Base>
