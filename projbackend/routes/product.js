@@ -29,6 +29,8 @@ router.post(
 );
 
 // read routes
+
+// Router GET Routes
 router.get("/product/:productId", getProduct);
 router.get("/product/photo/:productId", photo);
 
